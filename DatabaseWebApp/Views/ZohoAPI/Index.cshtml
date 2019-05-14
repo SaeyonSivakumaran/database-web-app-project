@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Zoho Access";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,12 +9,15 @@
         font-family: Tahoma, Geneva, sans-serif;
     }
 
-    table#weather {
+    #weather {
         border: 3px solid black;
+        text-align: center;
+        margin: auto;
+        width: 20%;
     }
 
     td {
-        padding: 20px;
+        padding: 10px;
         text-align: center;
         vertical-align: middle;
         text-transform: capitalize;
@@ -23,14 +26,6 @@
 
     #city {
         font-weight: bold;
-    }
-
-    article {
-        float: left;
-    }
-
-    aside {
-        float: right;
     }
 
     #login {
@@ -73,13 +68,16 @@
             <p>Authentication Code: @ViewData["code"]</p>
         }
     </div>
-    <table id="weather">
-        <tr>
-            <td><img src="@ViewData["icon"]"></td>
-            <td>@ViewData["temperature"]&#176;C</td>
-        </tr>
-        <tr><td colspan="2">@ViewData["description"]</td></tr>
-        <tr><td id="city" colspan="2">@ViewData["city"], @ViewData["country"]</td></tr>
-    </table>
+    <br /><br />
+    <div id="weatherwidget">
+        <table id="weather">
+            <tr>
+                <td><img src="@ViewData["icon"]"></td>
+                <td>@ViewData["temperature"]&#176;C</td>
+            </tr>
+            <tr><td colspan="2">@ViewData["description"]</td></tr>
+            <tr><td id="city" colspan="2">@ViewData["city"], @ViewData["country"]</td></tr>
+        </table>
+    </div>
 </body>
 
