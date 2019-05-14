@@ -12,15 +12,15 @@ namespace DatabaseWebApp.Controllers
     {
         public ActionResult Index(FormCollection formInputs)
         {
-            // Creating the connection string
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = formInputs["server"];
-            builder.UserID = formInputs["user"];
-            builder.Password = formInputs["pass"];
-            builder.InitialCatalog = formInputs["database"];
-            string conStr = builder.ConnectionString;
             try
-            {                
+            {
+                // Creating the connection string
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                builder.DataSource = formInputs["server"];
+                builder.UserID = formInputs["user"];
+                builder.Password = formInputs["pass"];
+                builder.InitialCatalog = formInputs["database"];
+                string conStr = builder.ConnectionString;
                 // Generating a markup string to use in the view
                 PersonMarkupGenerator markupGen = new PersonMarkupGenerator();
                 markupGen.setPeople(conStr);
