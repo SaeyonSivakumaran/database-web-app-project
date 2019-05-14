@@ -1,0 +1,25 @@
+﻿@model DatabaseWebApp.Models.Person
+
+@{
+    ViewBag.Title = "Add Person";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Enter A Person's Information Into The Database</h3><br>
+
+@using(Html.BeginForm("AddPerson", "AddPerson", FormMethod.Post))
+{
+    <label>Name: </label><br />
+    <input type="text" name="name" placeholder="Enter Full Name"/><br />
+    <label>Age: </label><br />
+    <input type="text" name="age" placeholder="Enter Age"/><br />
+    <label>Gender: </label><br />
+    <label>Male</label>@Html.RadioButton("gender", "Male")
+    <label>Female</label>@Html.RadioButton("gender", "Female")
+    <label>Other</label>@Html.RadioButton("gender", "Other")<br />
+    <label>Location: </label><br />
+    <input type="text" name="location" placeholder="Enter Location"/><br />
+    <label>School: </label><br />  
+    <input type="text" name="school" placeholder="Enter School"/><br /><br />
+    <input type="submit" value="Submit Information" />
+}
