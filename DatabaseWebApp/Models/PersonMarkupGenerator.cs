@@ -54,9 +54,7 @@ namespace DatabaseWebApp.Models
                     $"<td>{person.sex}</td>" +
                     $"<td>{person.location}</td>" +
                     $"<td>{person.school}</td>" +
-                    $"<td>{person.id}</td>" +
-                    $"<td><input type='button' value='Remove' id='{person.id}' " +
-                    $"onclick='DeleteRow(this)' style='width:100%'></td></tr>");
+                    $"<td>{person.id}</td>");
             }
             table.Append("</table>");
             return table.ToString();
