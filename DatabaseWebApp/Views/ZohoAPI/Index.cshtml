@@ -62,6 +62,10 @@
         <article>
             <h3>Access Your Zoho Data!</h3><br />
             <form method="post" action="@Url.Action("OAuthRedirect", "ZohoAPI")">
+                <label>Client ID: </label><br />
+                <input type="text" name="clientID" placeholder="Enter Client ID" /><br />
+                <label>Scope: </label><br />
+                <input type="text" name="scope" placeholder="Enter Scope" /><br /><br />
                 <input id="login" type="submit" value="Login to Zoho!" />
             </form>
             <br />

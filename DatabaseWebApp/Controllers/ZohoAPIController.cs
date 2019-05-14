@@ -36,12 +36,13 @@ namespace DatabaseWebApp.Controllers
             ViewData["country"] = weather.Country;
         }
 
-        public ActionResult OAuthRedirect()
+        public ActionResult OAuthRedirect(FormCollection formInputs)
         {
-            string clientId = "1000.6HOB8P0UQQ093190608HV63TWPQ6AH";
-            string scope = "ZohoProjects.projects.READ";
-            string redirect = "";
-            string redirectUrl = $"https://accounts.zoho.com/oauth/v2/auth?scope={ scope }&client_id={ clientId }&response_type=code&access_type=offline&redirect_uri={ redirect }/&prompt=consent";
+            //1000.6HOB8P0UQQ093190608HV63TWPQ6AH ZohoProjects.projects.READ
+            string clientId = formInputs["clientID"];
+            string scope = formInputs["scope"];
+            string redirect = "https://tolocalhost.com/";
+            string redirectUrl = $"https://accounts.zoho.com/oauth/v2/auth?scope={ scope }&client_id={ clientId }&response_type=code&access_type=offline&redirect_uri={ redirect }&prompt=consent";
             return Redirect(redirectUrl);
         }
     }
