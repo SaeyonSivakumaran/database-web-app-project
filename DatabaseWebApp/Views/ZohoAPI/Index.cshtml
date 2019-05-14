@@ -44,36 +44,42 @@
         font-family: Tahoma, Geneva, sans-serif;
         font-size: 15px;
     }
+
+    #zohoinput {
+        text-align: center;
+        margin: auto;
+        width: 50%;
+        border: 3px solid #000000;
+    }
+
+    input {
+        width: 75%;
+        padding: 8px 16px;
+    }
 </style>
 
 <body>
     <br />
-    <section>
-        <aside>
-            <table id="weather">
-                <tr>
-                    <td><img src="@ViewData["icon"]"></td>
-                    <td>@ViewData["temperature"]&#176;C</td>
-                </tr>
-                <tr><td colspan="2">@ViewData["description"]</td></tr>
-                <tr><td id="city" colspan="2">@ViewData["city"], @ViewData["country"]</td></tr>
-            </table>
-        </aside>
-        <article>
-            <h3>Access Your Zoho Data!</h3><br />
-            <form method="post" action="@Url.Action("OAuthRedirect", "ZohoAPI")">
-                <label>Client ID: </label><br />
-                <input type="text" name="clientID" placeholder="Enter Client ID" /><br />
-                <label>Scope: </label><br />
-                <input type="text" name="scope" placeholder="Enter Scope" /><br /><br />
-                <input id="login" type="submit" value="Login to Zoho!" />
-            </form>
-            <br />
-            @if (Convert.ToBoolean(ViewData["displayCode"]))
-            {
-                <p>Authentication Code: @ViewData["code"]</p>
-            }
-        </article>
-    </section>
+    <div id="zohoinput">
+        <h3>Access Your Zoho Projects</h3><br />
+        <form method="post" action="@Url.Action("OAuthRedirect", "ZohoAPI")">
+            <input type="text" name="clientID" placeholder="Client ID" /><br />
+            <input type="text" name="scope" placeholder="Scope" /><br /><br />
+            <input id="login" type="submit" value="Login to Zoho!" />
+        </form>
+        <br />
+        @if (Convert.ToBoolean(ViewData["displayCode"]))
+        {
+            <p>Authentication Code: @ViewData["code"]</p>
+        }
+    </div>
+    <table id="weather">
+        <tr>
+            <td><img src="@ViewData["icon"]"></td>
+            <td>@ViewData["temperature"]&#176;C</td>
+        </tr>
+        <tr><td colspan="2">@ViewData["description"]</td></tr>
+        <tr><td id="city" colspan="2">@ViewData["city"], @ViewData["country"]</td></tr>
+    </table>
 </body>
 

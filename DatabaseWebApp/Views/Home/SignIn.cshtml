@@ -14,25 +14,53 @@
         * {
             font-family: Tahoma, Geneva, sans-serif;
         }
+
+        .login {
+            text-align: center;
+            margin: auto;
+            width: 50%;
+            border: 3px solid #000000;
+        }
+
+        input {
+            width: 75%;
+            padding: 8px 16px;
+        }
+
+        #errormsg {
+            color: #800000;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        #loginsubmit {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 10px 22px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+        }
     </style>
 </head>
 <body>
-    <h3>Sign In To Your Database</h3><br>
-    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-    {
-        <label>Server Name: </label><br />
-        <input type="text" name="server" placeholder="Enter Server" /><br />
-        <label>Database Name: </label><br />
-        <input type="text" name="database" placeholder="Enter Database Name" /><br />
-        <label>Username: </label><br />
-        <input type="text" name="user" placeholder="Enter Username" /><br />
-        <label>Password: </label><br />
-        <input type="password" name="pass" placeholder="Enter Password" /><br /><br />
-        <input type="submit" value="Login To Database" />
-    }
-
     <br />
-    <p>@ViewData["errormsg"]</p>
+    <div class="login">
+        <h3>Sign In To Your Database</h3><br>
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            <input type="text" name="server" placeholder="Server Name" /><br />
+            <input type="text" name="database" placeholder="Database Name" /><br />
+            <input type="text" name="user" placeholder="Username" /><br />
+            <input type="password" name="pass" placeholder="Password" /><br /><br />
+            <input id="loginsubmit" type="submit" value="Login To Database" />
+        }
+
+        <br />
+        <p id="errormsg">@ViewData["errormsg"]</p>
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
