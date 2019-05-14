@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    * {
+        font-family: Tahoma, Geneva, sans-serif;
+    }
+
+    table#weather {
+        border: 3px solid black;
+    }
+
+    td {
+        padding: 20px;
+        text-align: center;
+        vertical-align: middle;
+        text-transform: capitalize;
+        font-size: 125%;
+    }
+
+    #city {
+        font-weight: bold;
+    }
+
+    article {
+        float: left;
+    }
+
+    aside {
+        float: right;
+    }
+
+    #login {
+        background-color: #008CBA;
+        border: none;
+        color: white;
+        padding: 10px 22px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-family: Tahoma, Geneva, sans-serif;
+        font-size: 15px;
+    }
+</style>
+
+<body>
+    <br />
+    <section>
+        <aside>
+            <table id="weather">
+                <tr>
+                    <td><img src="@ViewData["icon"]"></td>
+                    <td>@ViewData["temperature"]&#176;C</td>
+                </tr>
+                <tr><td colspan="2">@ViewData["description"]</td></tr>
+                <tr><td id="city" colspan="2">@ViewData["city"], @ViewData["country"]</td></tr>
+            </table>
+        </aside>
+        <article>
+            <h3>Access Your Zoho Data!</h3><br />
+            <form method="post" action="@Url.Action("OAuthRedirect", "ZohoAPI")">
+                <input id="login" type="submit" value="Login to Zoho!" />
+            </form>
+            <br />
+            @if (Convert.ToBoolean(ViewData["displayCode"]))
+            {
+                <p>Authentication Code: @ViewData["code"]</p>
+            }
+        </article>
+    </section>
+</body>
+
