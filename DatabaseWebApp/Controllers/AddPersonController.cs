@@ -12,8 +12,14 @@ namespace DatabaseWebApp.Controllers
     {
         public ActionResult Index()
         {
-
-            return View();
+            if (Convert.ToBoolean(Session["loginsuccess"]))
+            {
+                return View();
+            } else
+            {
+                return RedirectToAction("SignIn", "Home", new { signinpass = false });
+            }
+            
         }
 
         [HttpPost]

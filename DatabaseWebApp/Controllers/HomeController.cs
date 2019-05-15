@@ -13,6 +13,7 @@ namespace DatabaseWebApp.Controllers
 
         public ActionResult Index(FormCollection formInputs)
         {
+            // Checking if the user is logged in
             if (Convert.ToBoolean(Session["loginsuccess"]))
             {
                 // Generating a markup string to use in the view
@@ -82,6 +83,13 @@ namespace DatabaseWebApp.Controllers
             cmd.ExecuteNonQuery();
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Logout()
+        {
+            Session["loginsuccess"] = false;
+            Session["connection"] = null;
+            return RedirectToAction("SignIn");
         }
 
     }

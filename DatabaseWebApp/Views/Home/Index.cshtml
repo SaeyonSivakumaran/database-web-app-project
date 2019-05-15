@@ -24,13 +24,21 @@
             background-color: #dddddd;
         }
 
-        .inner {
-            display: inline-block;
+        .editbutton {
+            float: left;
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 6px 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 13.5px;
+            margin: 2px 5px;
         }
 
-        .editbutton {
-            display: inline-block;
-            background-color: #008CBA;
+        .logoutbutton {
+            float: right;
+            background-color: #990000;
             border: none;
             color: white;
             padding: 6px 15px;
@@ -56,8 +64,14 @@
             <input class="editbutton" type="submit" value="Remove Person" />
         }
     </div>
+    <div class="inner">
+        @using (Html.BeginForm("Logout", "Home", FormMethod.Post))
+        {
+            <input class="logoutbutton" type="submit" value="Logout" />
+        }
+    </div>
 </div>
 
-<br />
+<br /><br />
 
 @Html.Raw(@ViewData["markup"])
