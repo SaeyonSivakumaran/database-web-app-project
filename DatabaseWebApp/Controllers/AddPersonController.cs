@@ -20,30 +20,12 @@ namespace DatabaseWebApp.Controllers
         public ActionResult AddPerson(FormCollection formInputs)
         {
             // Getting information from view
-            string name = formInputs["name"].ToString();
-            string age = formInputs["age"].ToString();
-            string gender = formInputs["gender"].ToString();
-            string location = formInputs["location"].ToString();
-            string school = formInputs["school"].ToString();
-
-            // Creating SQL Connection
-            string conStr = "Data Source=LAPTOP-L1T7M28M;Initial Catalog=PeopleDatabase;Integrated Security=True";
-            SqlConnection connection = new SqlConnection(conStr);
-            connection.Open();
-
-            // Creating the SQL Command
-            string query = "INSERT INTO InfoTable VALUES(@name, @age, @gender, @location, @school)";
-            SqlCommand cmd = new SqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@name", name);
-            cmd.Parameters.AddWithValue("@age", age);
-            cmd.Parameters.AddWithValue("@gender", gender);
-            cmd.Parameters.AddWithValue("@location", location);
-            cmd.Parameters.AddWithValue("@school", school);
-
-            //Execute SQL query
-            cmd.ExecuteNonQuery();
-
-            return RedirectToAction("Index");
+            string name1 = formInputs["name"].ToString();
+            string age1 = formInputs["age"].ToString();
+            string gender1 = formInputs["gender"].ToString();
+            string location1 = formInputs["location"].ToString();
+            string school1 = formInputs["school"].ToString();
+            return RedirectToAction("AddPerson", "Home", new { name = name1, age = age1, gender = gender1, location = location1, school = school1 });
         }
 
     }

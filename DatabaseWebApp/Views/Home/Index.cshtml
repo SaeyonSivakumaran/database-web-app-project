@@ -23,9 +23,41 @@
         tr:nth-child(even) {
             background-color: #dddddd;
         }
+
+        .inner {
+            display: inline-block;
+        }
+
+        .editbutton {
+            display: inline-block;
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 6px 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 13.5px;
+            margin: 2px 5px;
+        }
     </style>
 </head>
 
 <h2>Welcome to the Person Database!</h2><br />
+<div>
+    <div class="inner">
+        @using (Html.BeginForm("Index", "AddPerson", FormMethod.Post))
+        {
+            <input class="editbutton" type="submit" value="Add Person" />
+        }
+    </div>
+    <div class="inner">
+        @using (Html.BeginForm("Index", "AddPerson", FormMethod.Post))
+        {
+            <input class="editbutton" type="submit" value="Remove Person" />
+        }
+    </div>
+</div>
+
+<br />
 
 @Html.Raw(@ViewData["markup"])
