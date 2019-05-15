@@ -5,21 +5,58 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Enter A Person's Information Into The Database</h3><br>
+<head>
+    <style>
+        * {
+            font-family: Tahoma, Geneva, sans-serif;
+        }
 
-@using(Html.BeginForm("AddPerson", "AddPerson", FormMethod.Post))
-{
-    <label>Name: </label><br />
-    <input type="text" name="name" placeholder="Enter Full Name"/><br />
-    <label>Age: </label><br />
-    <input type="text" name="age" placeholder="Enter Age"/><br />
-    <label>Gender: </label><br />
-    <label>Male</label>@Html.RadioButton("gender", "Male")
-    <label>Female</label>@Html.RadioButton("gender", "Female")
-    <label>Other</label>@Html.RadioButton("gender", "Other")<br />
-    <label>Location: </label><br />
-    <input type="text" name="location" placeholder="Enter Location"/><br />
-    <label>School: </label><br />  
-    <input type="text" name="school" placeholder="Enter School"/><br /><br />
-    <input type="submit" value="Submit Information" />
-}
+        input {
+            width: 100%;
+            padding: 8px 16px;
+        }
+
+        .addperson {
+            text-align: center;
+            margin: auto;
+            width: 55%;
+            border: 3px solid #000000;
+        }
+
+        #addsubmit {
+            background-color: #006600;
+            border: none;
+            color: white;
+            padding: 9px 18px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+
+        .inner {
+            display: inline-block;
+            padding: 10px 10px 10px 10px;
+        }
+    </style>
+</head>
+
+<br />
+<div class="addperson">
+    <h3>Add A Person's Information</h3><br>
+
+    @using (Html.BeginForm("AddPerson", "AddPerson", FormMethod.Post))
+    {
+        <input type="text" name="name" placeholder="Enter Full Name" /><br />
+        <input type="text" name="age" placeholder="Enter Age" /><br />
+        <div class="radiocontainer">
+            <div class="inner">Male @Html.RadioButton("gender", "Male")</div>
+            <div class="inner">Female @Html.RadioButton("gender", "Female")</div>
+            <div class="inner">Other @Html.RadioButton("gender", "Other")</div>
+        </div>
+        <input type="text" name="location" placeholder="Enter Location" /><br />
+        <input type="text" name="school" placeholder="Enter School" /><br /><br />
+        <input id="addsubmit" type="submit" value="Submit Information" />
+    }
+    <br />
+</div>

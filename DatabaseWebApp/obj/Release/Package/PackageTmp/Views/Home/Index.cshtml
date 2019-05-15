@@ -23,9 +23,55 @@
         tr:nth-child(even) {
             background-color: #dddddd;
         }
+
+        .editbutton {
+            float: left;
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 6px 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 13.5px;
+            margin: 2px 5px;
+        }
+
+        .logoutbutton {
+            float: right;
+            background-color: #990000;
+            border: none;
+            color: white;
+            padding: 6px 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 13.5px;
+            margin: 2px 5px;
+        }
     </style>
 </head>
 
 <h2>Welcome to the Person Database!</h2><br />
+<div>
+    <div class="inner">
+        @using (Html.BeginForm("Index", "AddPerson", FormMethod.Post))
+        {
+            <input class="editbutton" type="submit" value="Add Person" />
+        }
+    </div>
+    <div class="inner">
+        @using (Html.BeginForm("Index", "AddPerson", FormMethod.Post))
+        {
+            <input class="editbutton" type="submit" value="Remove Person" />
+        }
+    </div>
+    <div class="inner">
+        @using (Html.BeginForm("Logout", "Home", FormMethod.Post))
+        {
+            <input class="logoutbutton" type="submit" value="Logout" />
+        }
+    </div>
+</div>
+
+<br /><br />
 
 @Html.Raw(@ViewData["markup"])
