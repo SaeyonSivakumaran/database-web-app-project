@@ -38,10 +38,9 @@ namespace DatabaseWebApp.Controllers
 
         public ActionResult OAuthRedirect(FormCollection formInputs)
         {
-            //1000.6HOB8P0UQQ093190608HV63TWPQ6AH ZohoProjects.projects.READ
             string clientId = formInputs["clientID"];
             string scope = formInputs["scope"];
-            string redirect = "https://tolocalhost.com/";
+            string redirect = "http://testwebappassetsoft.azurewebsites.net/ZohoAPI/Index";
             string redirectUrl = $"https://accounts.zoho.com/oauth/v2/auth?scope={ scope }&client_id={ clientId }&response_type=code&access_type=offline&redirect_uri={ redirect }&prompt=consent";
             return Redirect(redirectUrl);
         }

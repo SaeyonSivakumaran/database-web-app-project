@@ -21,6 +21,7 @@ namespace DatabaseWebApp.Controllers
                 markupGen.setPeople(Session["connection"].ToString());
                 string markupStr = markupGen.generateMarkup();
                 ViewData["markup"] = markupStr;
+                Session["tablemarkup"] = markupStr;
                 return View();
             }
             else
