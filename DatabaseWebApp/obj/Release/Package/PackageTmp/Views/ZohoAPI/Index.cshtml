@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Zoho Access";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    * {
+        font-family: Tahoma, Geneva, sans-serif;
+    }
+
+    #weather {
+        border: 3px solid black;
+        text-align: center;
+        margin: auto;
+        width: 20%;
+    }
+
+    td {
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+        text-transform: capitalize;
+        font-size: 125%;
+    }
+
+    #city {
+        font-weight: bold;
+    }
+
+    #login {
+        background-color: #008CBA;
+        border: none;
+        color: white;
+        padding: 10px 22px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-family: Tahoma, Geneva, sans-serif;
+        font-size: 15px;
+    }
+
+    #zohoinput {
+        text-align: center;
+        margin: auto;
+        width: 50%;
+        border: 3px solid #000000;
+    }
+
+    input {
+        width: 75%;
+        padding: 8px 16px;
+    }
+</style>
+
+<body>
+    <br />
+    <div id="zohoinput">
+        <h3>Access Your Zoho Projects</h3><br />
+        <form method="post" action="@Url.Action("OAuthRedirect", "ZohoAPI")">
+            <input type="text" name="clientID" placeholder="Client ID" /><br />
+            <input type="text" name="scope" placeholder="Scope" /><br /><br />
+            <input id="login" type="submit" value="Login to Zoho!" />
+        </form>
+        <br />
+        @if (Convert.ToBoolean(ViewData["displayCode"]))
+        {
+            <p>Authentication Code: @ViewData["code"]</p>
+        }
+    </div>
+    <br /><br />
+    <div id="weatherwidget">
+        <table id="weather">
+            <tr>
+                <td><img src="@ViewData["icon"]"></td>
+                <td>@ViewData["temperature"]&#176;C</td>
+            </tr>
+            <tr><td colspan="2">@ViewData["description"]</td></tr>
+            <tr><td id="city" colspan="2">@ViewData["city"], @ViewData["country"]</td></tr>
+        </table>
+    </div>
+</body>
+
