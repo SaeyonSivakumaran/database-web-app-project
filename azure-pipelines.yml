@@ -34,3 +34,11 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: PublishBuildArtifacts@1
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Free Trial (22abe2e5-10ff-4f6e-ad6f-bc01c424f032)'
+    appType: 'webApp'
+    WebAppName: 'TestWebAppAssetsoft'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
