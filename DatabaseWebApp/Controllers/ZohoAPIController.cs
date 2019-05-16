@@ -40,7 +40,8 @@ namespace DatabaseWebApp.Controllers
                 string accessToken = authJson["access_token"].ToString();
                 string refreshToken = authJson["refresh_token"].ToString();
                 string zohoJson = await GetZohoData(accessToken);
-                return RedirectToAction("ZohoContent", new { jsonData = zohoJson });
+                return Content(zohoJson);
+                //return RedirectToAction("ZohoContent", new { jsonData = zohoJson });
             }
             else
             {
@@ -87,11 +88,10 @@ namespace DatabaseWebApp.Controllers
             // Send a GET request to Zoho with an authorization header
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {access}");
-                using (HttpResponseMessage response = await client.GetAsync("https://projectsapi.zoho.com/restapi/portals/"))
-                {
-                    return await response.Content.ReadAsStringAsync();
-                }
+                string url = "https://projectsapi.zoho.com/restapi/portals/";
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + access);
+                var response = await client.GetStringAsync(url);
+                return response;
             }
         }
 
