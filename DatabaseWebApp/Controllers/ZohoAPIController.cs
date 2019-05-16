@@ -57,12 +57,12 @@ namespace DatabaseWebApp.Controllers
 
         public async Task<String> OAuthPost(string token)
         {
-            using (HttpClient client = new HttpClient())
+            using (var client = new HttpClient())
             {
                 string clientId = "1000.6HOB8P0UQQ093190608HV63TWPQ6AH";
                 string clientSecret = "0ecfecbf51808d735e7d4c571da64b3370fe03f50d";
                 string redirect = "http://testwebappassetsoft.azurewebsites.net/ZohoAPI/Index";
-                string url = $"https://accounts.zoho.com/oauth/v2/token?code={ token }&redirect_uri={ redirect }&client_id={ clientId }&client_secret ={ clientSecret } &grant_type = authorization_code";
+                string url = $"https://accounts.zoho.com/oauth/v2/token?code={ token }&redirect_uri={ redirect }&client_id={ clientId }&client_secret={ clientSecret }&grant_type=authorization_code";
                 var post = await client.PostAsync(url, null);
                 string resultContent = await post.Content.ReadAsStringAsync();
                 return resultContent;
