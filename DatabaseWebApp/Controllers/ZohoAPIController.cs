@@ -7,6 +7,7 @@ using DatabaseWebApp.Models;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 
 namespace DatabaseWebApp.Controllers
 {
@@ -39,7 +40,6 @@ namespace DatabaseWebApp.Controllers
                 string accessToken = authJson["access_token"].ToString();
                 string refreshToken = authJson["refresh_token"].ToString();
                 string zohoJson = await GetZohoData(accessToken);
-                return Content(accessToken);
                 return RedirectToAction("ZohoContent", new { jsonData = zohoJson });
             }
             else
@@ -84,7 +84,13 @@ namespace DatabaseWebApp.Controllers
 
         public async Task<String> GetZohoData(string access)
         {
-            return "";
+            // Send a GET request to Zoho with an authorization header
+            using (var request = new HttpRequestMessage(HttpMethod.Post, "https://projectsapi.zoho.com/restapi/portals/"))
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", access);
+                HttpResponseMessage response = await ApiHelper.ApiClient.SendAsync(request);
+                return await response.Content.ReadAsStringAsync();
+            }
         }
 
         public ActionResult ZohoContent(string jsonData)
