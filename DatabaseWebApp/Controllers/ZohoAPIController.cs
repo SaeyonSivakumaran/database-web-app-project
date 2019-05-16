@@ -85,11 +85,13 @@ namespace DatabaseWebApp.Controllers
         public async Task<String> GetZohoData(string access)
         {
             // Send a GET request to Zoho with an authorization header
-            using (var request = new HttpRequestMessage(HttpMethod.Post, "https://projectsapi.zoho.com/restapi/portals/"))
+            using (var client = new HttpClient())
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", access);
-                HttpResponseMessage response = await ApiHelper.ApiClient.SendAsync(request);
-                return await response.Content.ReadAsStringAsync();
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {access}");
+                using (HttpResponseMessage response = await client.GetAsync("https://projectsapi.zoho.com/restapi/portals/"))
+                {
+                    return await response.Content.ReadAsStringAsync();
+                }
             }
         }
 
