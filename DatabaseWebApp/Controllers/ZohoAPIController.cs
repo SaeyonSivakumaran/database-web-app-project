@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using DatabaseWebApp.Models;
 using System.Threading.Tasks;
 using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
 namespace DatabaseWebApp.Controllers
 {
@@ -27,7 +28,10 @@ namespace DatabaseWebApp.Controllers
                 ViewData["displayCode"] = true;
                 ViewData["code"] = code;
                 string authInfo = await this.OAuthPost(code);
-                return Content(authInfo);
+                JObject authJson = JObject.Parse(authInfo);
+                string accessToken = authJson["access_token"].ToString();
+                string refreshToken = authJson["refresh_token"].ToString();
+                return Content($"access: {accessToken}   refresh: {refreshToken}");
             }
             else
             {
