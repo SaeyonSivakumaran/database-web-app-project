@@ -12,8 +12,15 @@ namespace DatabaseWebApp.Controllers
     {
         public async Task<ActionResult> Index(string code)
         {
+            ViewData["displayWeather"] = true;
             ApiHelper.InitializeClient();
-            await this.LoadWeather();
+            try
+            {
+                await this.LoadWeather();
+            } catch(Exception e)
+            {
+                ViewData["displayWeather"] = false;
+            }          
             if (!string.IsNullOrEmpty(code))
             {
                 ViewData["displayCode"] = true;

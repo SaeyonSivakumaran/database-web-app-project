@@ -69,15 +69,19 @@
         }
     </div>
     <br /><br />
-    <div id="weatherwidget">
-        <table id="weather">
-            <tr>
-                <td><img src="@ViewData["icon"]"></td>
-                <td>@ViewData["temperature"]&#176;C</td>
-            </tr>
-            <tr><td colspan="2">@ViewData["description"]</td></tr>
-            <tr><td id="city" colspan="2">@ViewData["city"], @ViewData["country"]</td></tr>
-        </table>
-    </div>
+    @if (Convert.ToBoolean(ViewData["displayWeather"]))
+    {
+        <div id="weatherwidget">
+            <table id="weather">
+                <tr>
+                    <td><img src="@ViewData["icon"]"></td>
+                    <td>@ViewData["temperature"]&#176;C</td>
+                </tr>
+                <tr><td colspan="2">@ViewData["description"]</td></tr>
+                <tr><td id="city" colspan="2">@ViewData["city"], @ViewData["country"]</td></tr>
+            </table>
+        </div>
+    }
+
 </body>
 
