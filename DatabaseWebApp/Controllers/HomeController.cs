@@ -35,6 +35,7 @@ namespace DatabaseWebApp.Controllers
                     builder.Password = formInputs["pass"];
                     builder.InitialCatalog = formInputs["database"];
                     string conStr = builder.ConnectionString;
+
                     // Generating a markup string to use in the view
                     PersonMarkupGenerator markupGen = new PersonMarkupGenerator();
                     markupGen.setPeople(conStr);
@@ -88,6 +89,7 @@ namespace DatabaseWebApp.Controllers
 
         public ActionResult Logout()
         {
+            // Reset session values and redirect to sign in page
             Session["loginsuccess"] = false;
             Session["connection"] = null;
             return RedirectToAction("SignIn");

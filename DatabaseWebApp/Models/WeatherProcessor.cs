@@ -16,10 +16,13 @@ namespace DatabaseWebApp.Models
         public static async Task<WeatherModel> LoadWeather()
         {
             string url = $"http://api.openweathermap.org/data/2.5/weather?id={ cityId }&APPID={ key }&units=metric";
+
+            // Getting the response from OpenWeatherMap
             using (HttpResponseMessage response = await ApiHelper.ApiClient.GetAsync(url))
             {
                 if (response.IsSuccessStatusCode)
                 {
+                    // Returning a weather object using the JSON input 
                     WeatherModel weather = new WeatherModel();
                     string data = await response.Content.ReadAsStringAsync();
                     dynamic jsonData = JsonConvert.DeserializeObject(data);
