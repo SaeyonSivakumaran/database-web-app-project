@@ -94,6 +94,13 @@ namespace DatabaseWebApp.Controllers
                 if (Session["scope"].ToString() == "ZohoProjects.portals.READ")
                 {
                     url = "https://projectsapi.zoho.com/restapi/portals/";
+                } else if (Session["scope"].ToString() == "ZohoProjects.projects.READ" && Session["portalIds"] != null)
+                {
+                    url = $"https://projectsapi.zoho.com/restapi/portal/{ ((List<String>)Session["portalIds"])[0].ToString() }/projects/";
+                } else
+                {
+                    Session["invalidscope"] = true;
+                    return RedirectToAction("Index", "ZohoAPI");
                 }
 
                 // Redirecting to the appropriate action if there is a valid url
@@ -101,7 +108,8 @@ namespace DatabaseWebApp.Controllers
                 {
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + access);
                     var response = await client.GetStringAsync(url);
-                    return ZohoContent(response);
+                    Session["jsondatastring"] = response;
+                    return RedirectToAction("ZohoContent");
                 } else
                 {
                     return RedirectToAction("Index", new { code = "invalid" });
@@ -109,9 +117,22 @@ namespace DatabaseWebApp.Controllers
             }
         }
 
-        public ActionResult ZohoContent(string jsonData)
+        public ActionResult ZohoContent()
         {
-            return Content(jsonData);
+            // Getting the portal IDs
+            if (Session["scope"].ToString() == "ZohoProjects.portals.READ")
+            {
+                JObject json = JObject.Parse(Session["jsondatastring"].ToString());
+                var portals = json["portals"];
+                List<String> portalIds = new List<String>();
+                Session["portalIds"] = portalIds;
+                foreach (var portal in portals)
+                {
+                    portalIds.Add(portal["id"].ToString());
+                }
+            }
+            ViewData["jsondatastring"] = Session["jsondatastring"].ToString();
+            return View();
         }
     }
 }

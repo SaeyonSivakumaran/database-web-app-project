@@ -173,6 +173,7 @@
     <Content Include="Views\Home\SignIn.cshtml" />
     <Content Include="Views\ZohoAPI\Index.cshtml" />
     <Content Include="Views\RemovePerson\Index.cshtml" />
+    <Content Include="Views\ZohoAPI\ZohoContent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
