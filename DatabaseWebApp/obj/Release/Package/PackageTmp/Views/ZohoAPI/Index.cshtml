@@ -51,6 +51,12 @@
         width: 75%;
         padding: 8px 16px;
     }
+
+    #errormsg {
+        color: #800000;
+        font-weight: bold;
+        font-size: 16px;
+    }
 </style>
 
 <body>
@@ -65,6 +71,11 @@
         @if (Convert.ToBoolean(ViewData["displayCode"]))
         {
             <p>Authentication Code: @ViewData["code"]</p>
+        }
+        <br />
+        @if (Convert.ToBoolean(ViewData["invalidscope"]))
+        {
+            <p id="errormsg">Invalid Scope</p>
         }
     </div>
     <br /><br />
