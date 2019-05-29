@@ -15,6 +15,7 @@ namespace DatabaseWebApp.Controllers
     {
         public async Task<ActionResult> Index(string code)
         {
+            Session["orgid"] = "688008521";
             ViewData["displayWeather"] = true;
             ViewData["invalidscope"] = false;
             ApiHelper.InitializeClient();
@@ -41,10 +42,12 @@ namespace DatabaseWebApp.Controllers
                 string accessToken = authJson["access_token"].ToString();
                 string refreshToken = authJson["refresh_token"].ToString();
                 return await GetZohoData(accessToken);
-            } else if (code == "invalid")
+            }
+            else if (code == "invalid")
             {
                 ViewData["invalidscope"] = true;
-            } else
+            }
+            else
             {
                 ViewData["displayCode"] = false;
             }
@@ -68,20 +71,44 @@ namespace DatabaseWebApp.Controllers
             string clientId = "1000.6HOB8P0UQQ093190608HV63TWPQ6AH";
             Session["scope"] = formInputs["scope"];
             string redirect = "http://testwebappassetsoft.azurewebsites.net/ZohoAPI/Index";
-            string redirectUrl = $"https://accounts.zoho.com/oauth/v2/auth?scope={ Session["scope"] }&client_id={ clientId }&response_type=code&access_type=offline&redirect_uri={ redirect }&prompt=consent";
+            string redirectUrl = null;
+            if (Session["scope"].ToString() == "Desk.basic.READ,Desk.settings.READ" || Session["scope"].ToString() == "Desk.tickets.READ")
+            {
+                redirectUrl = $"https://accounts.zoho.com/oauth/v2/auth?scope={ Session["scope"] }&client_id={ clientId }&response_type=code&access_type=offline&redirect_uri={ redirect }";
+            }
+            else
+            {
+                redirectUrl = $"https://accounts.zoho.com/oauth/v2/auth?scope={ Session["scope"] }&client_id={ clientId }&response_type=code&access_type=offline&redirect_uri={ redirect }&prompt=consent";
+            }
+
             return Redirect(redirectUrl);
         }
 
         public async Task<String> OAuthPost(string token)
         {
-            // Sending a POST request and generating access and refresh tokens
-            string clientId = "1000.6HOB8P0UQQ093190608HV63TWPQ6AH";
-            string clientSecret = "0ecfecbf51808d735e7d4c571da64b3370fe03f50d";
-            string redirect = "http://testwebappassetsoft.azurewebsites.net/ZohoAPI/Index";
-            string url = $"https://accounts.zoho.com/oauth/v2/token?code={ token }&redirect_uri={ redirect }&client_id={ clientId }&client_secret={ clientSecret }&grant_type=authorization_code";
-            var post = await ApiHelper.ApiClient.PostAsync(url, null);
-            string resultContent = await post.Content.ReadAsStringAsync();
-            return resultContent;
+            if (Session["scope"].ToString() == "Desk.basic.READ,Desk.settings.READ" || Session["scope"].ToString() == "Desk.tickets.READ")
+            {
+                // Sending a POST request and generating access and refresh tokens
+                string clientId = "1000.6HOB8P0UQQ093190608HV63TWPQ6AH";
+                string clientSecret = "0ecfecbf51808d735e7d4c571da64b3370fe03f50d";
+                string redirect = "http://testwebappassetsoft.azurewebsites.net/ZohoAPI/Index";
+                string url = $"https://accounts.zoho.com/oauth/v2/token?code={ token }&redirect_uri={ redirect }&client_id={ clientId }&client_secret={ clientSecret }&grant_type=authorization_code&scope={ Session["scope"] }";
+                var post = await ApiHelper.ApiClient.PostAsync(url, null);
+                string resultContent = await post.Content.ReadAsStringAsync();
+                return resultContent;
+            }
+            else
+            {
+                // Sending a POST request and generating access and refresh tokens
+                string clientId = "1000.6HOB8P0UQQ093190608HV63TWPQ6AH";
+                string clientSecret = "0ecfecbf51808d735e7d4c571da64b3370fe03f50d";
+                string redirect = "http://testwebappassetsoft.azurewebsites.net/ZohoAPI/Index";
+                string url = $"https://accounts.zoho.com/oauth/v2/token?code={ token }&redirect_uri={ redirect }&client_id={ clientId }&client_secret={ clientSecret }&grant_type=authorization_code&scope={ Session["scope"] }";
+                var post = await ApiHelper.ApiClient.PostAsync(url, null);
+                string resultContent = await post.Content.ReadAsStringAsync();
+                return resultContent;
+            }
+
         }
 
         public async Task<ActionResult> GetZohoData(string access)
@@ -94,10 +121,20 @@ namespace DatabaseWebApp.Controllers
                 if (Session["scope"].ToString() == "ZohoProjects.portals.READ")
                 {
                     url = "https://projectsapi.zoho.com/restapi/portals/";
-                } else if (Session["scope"].ToString() == "ZohoProjects.projects.READ" && Session["portalIds"] != null)
+                }
+                else if (Session["scope"].ToString() == "ZohoProjects.projects.READ" && Session["portalIds"] != null)
                 {
                     url = $"https://projectsapi.zoho.com/restapi/portal/{ ((List<String>)Session["portalIds"])[0].ToString() }/projects/";
-                } else
+                }
+                else if (Session["scope"].ToString() == "Desk.basic.READ,Desk.settings.READ")
+                {
+                    url = $"https://desk.zoho.com/api/v1/organizations";
+                }
+                else if (Session["scope"].ToString() == "Desk.tickets.READ")
+                {
+                    url = $"https://desk.zoho.com/api/v1/tickets";
+                }
+                else
                 {
                     Session["invalidscope"] = true;
                     return RedirectToAction("Index", "ZohoAPI");
@@ -106,11 +143,24 @@ namespace DatabaseWebApp.Controllers
                 // Redirecting to the appropriate action if there is a valid url
                 if (!String.IsNullOrEmpty(url))
                 {
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + access);
-                    var response = await client.GetStringAsync(url);
-                    Session["jsondatastring"] = response;
-                    return RedirectToAction("ZohoContent");
-                } else
+                    if (Session["scope"].ToString() == "Desk.tickets.READ")
+                    {
+                        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + access);
+                        client.DefaultRequestHeaders.Add("orgId", Session["orgid"].ToString());
+
+                        var response = await client.GetStringAsync(url);
+                        Session["jsondatastring"] = response;
+                        return RedirectToAction("ZohoContent");
+                    }
+                    else
+                    {
+                        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + access);
+                        var response = await client.GetStringAsync(url);
+                        Session["jsondatastring"] = response;
+                        return RedirectToAction("ZohoContent");
+                    }
+                }
+                else
                 {
                     return RedirectToAction("Index", new { code = "invalid" });
                 }
@@ -124,14 +174,32 @@ namespace DatabaseWebApp.Controllers
             {
                 JObject json = JObject.Parse(Session["jsondatastring"].ToString());
                 var portals = json["portals"];
-                List<String> portalIds = new List<String>();
-                Session["portalIds"] = portalIds;
+                List<String> portalIds = new List<String>();              
                 foreach (var portal in portals)
                 {
                     portalIds.Add(portal["id"].ToString());
                 }
+                Session["portalIds"] = portalIds;
             }
-            ViewData["jsondatastring"] = Session["jsondatastring"].ToString();
+            // Getting the ticket IDs
+            else if (Session["scope"].ToString() == "Desk.tickets.READ")
+            {
+                JObject json = JObject.Parse(Session["jsondatastring"].ToString());
+                var tickets = json["data"];
+                List<String> ticketIds = new List<String>();
+                
+                foreach (var ticket in tickets)
+                {
+                    ticketIds.Add(ticket["id"].ToString());
+                }
+                Session["ticketIds"] = ticketIds;
+                foreach (var id in (List<String>)Session["ticketIds"])
+                {
+                    ViewData["jsondatastring"] += $"        ID: {id}        ";
+                }
+            }
+            ViewData["jsondatastring"] = Session["jsondatastring"].ToString() + ViewData["jsondatastring"].ToString();
+            
             return View();
         }
     }
