@@ -1,7 +1,5 @@
 # Web App Project
 
-http://testwebappassetsoft.azurewebsites.net/ <br>
-
 Azure Pipelines Build Status: <br>
 [![Build Status](https://dev.azure.com/Saeyon/Web%20App/_apis/build/status/SaeyonSivakumaran.DatabaseWebApp?branchName=master)](https://dev.azure.com/Saeyon/Web%20App/_build/latest?definitionId=5&branchName=master)
 <br>
